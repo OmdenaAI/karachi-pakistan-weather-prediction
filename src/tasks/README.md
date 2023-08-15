@@ -11,7 +11,7 @@ Note : Please Follow the below guidelines to create task folders
 
 | Task No| Task Name | Details |
 |-|-|-|
-|1|         |         |
+|1|Data Collection      | Collect the data from the weather api.|
 |2|Exploratory Data Analysis|The exploration of correlations and creation of features to determine help determine the model used in predicting weather disasters.|
 |3|         |         |
 |4|         |         |
