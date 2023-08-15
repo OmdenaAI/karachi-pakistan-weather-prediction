@@ -25,11 +25,19 @@ shortwave_radiation_sum -> The sum of solar radiaion on a given day in cities
 et0_fao_evapotranspiration -> Daily sum of ET₀ Reference Evapotranspiration of a well watered grass field
 
 Unit
+
 Temperature -> °C (°F)
+
 precipitation_sum -> mm
+
 rain_sum -> mm
+
 snowfall_sum -> cm
+
 precipitation_hours -> hours
+
 Windspeed -> km/h
+
 shortwave_radiation_sum -> MJ/m²
+
 et0_fao_evapotranspiration -> mm
