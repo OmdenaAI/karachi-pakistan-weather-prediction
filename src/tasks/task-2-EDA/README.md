@@ -11,7 +11,7 @@ We have divided the data by Feature and will analyze the feature for correlation
 |**1**| Temperature| Sai Nag, Ye Bhone Lin, Luis Maverick Gabriel, and Rohit Singh|
 |**2**| Precipitation| Nick Schilders and Utkarsh Trivedi|
 |**3**| Wind| Nihil Dev and Anagha Santhosh|
-|**4**| Evapotranspiration| Marc Kolb *(Task Team Lead)*|
+|**4**| Evapotranspiration| Marc Kolb *(Task Team Lead)* and Piyush Rawat|
 |**5**| Shortwave Radiation| Sahar Nikoo and Kelvin Njenga|
 |**6**| Daylight Hours| Sidra Tul Muntaha Ghouri|
 |**7**| Summary Result| Marc Kolb *(Task Team Lead)*|
