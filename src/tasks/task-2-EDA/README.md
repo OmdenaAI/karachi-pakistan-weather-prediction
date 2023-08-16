@@ -8,10 +8,10 @@ We have divided the data by Feature and will analyze the feature for correlation
 
 | **Task No**| **Task Name** | **Team Members** |
 |-|-|-|
-|**1**| Temperature| Sai Nag, Ye Bhone Lin, Luis Maverick Gabriel|
-|**2**| Precipitation| Nick Schilders, Utkarsh Trivedi|
-|**3**| Wind| Nihil Dev|
-|**4**| Evapotranspiration| Marc Kolb|         |
-|**5**| Shortwave Radiation| Sahar Nikoo|
+|**1**| Temperature| Sai Nag, Ye Bhone Lin, Luis Maverick Gabriel, and Rohit Singh|
+|**2**| Precipitation| Nick Schilders and Utkarsh Trivedi|
+|**3**| Wind| Nihil Dev and Anagha Santhosh|
+|**4**| Evapotranspiration| Marc Kolb *(Task Team Lead)*|
+|**5**| Shortwave Radiation| Sahar Nikoo and Kelvin Njenga|
 |**6**| Daylight Hours| Sidra Tul Muntaha Ghouri|
-|**7**| Summary Result| Marc Kolb|
+|**7**| Summary Result| Marc Kolb *(Task Team Lead)*|
