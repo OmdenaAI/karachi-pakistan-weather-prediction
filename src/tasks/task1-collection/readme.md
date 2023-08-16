@@ -4,7 +4,7 @@ weather code -> The most severe weather condition on a given day
 
 temperature_2m_max, temperature_2m_min -> Maximum and minimum daily air temperature at 2 meters above ground
 
-apparent_temperature_max, apparent_temperature_min ->Maximum and minimum daily apparent temperature
+apparent_temperature_max, apparent_temperature_min ->Maximum and minimum daily apparent temperature = Heat Index
 
 precipitation_sum -> Sum of daily precipitation (including rain, showers and snowfall)
 
