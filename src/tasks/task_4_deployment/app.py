@@ -48,6 +48,7 @@ total_hours = concat_df['precipitation_hours'].sum()
 concat_df['precipitation_rate'] = concat_df['precipitation_sum']/total_hours
 
 ##Streamlit app
+st.set_page_config(layout="wide", page_title="Weather Prediction", page_icon="⛅")
 st.title('Karachi Pakistan Weather Prediction')
 if concat_df is not None:
     st.write(concat_df)
