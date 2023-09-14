@@ -13,6 +13,6 @@ Note: Please Follow the below guidelines to create task folders
 |-|-|-|
 |1|Data Collection      | Collect the data from the weather api.|
 |2|Exploratory Data Analysis|The exploration of correlations and creation of features to help determine the model used in predicting weather disasters.|
-|3|         |         |
-|4|         |         |
+|3|Model Development  |         |
+|4|Model Deployment  |          |
 |5|Political Rationale| The entire basis of the political rationale is to create a document upon which we could use as a basis to know if the direction of our current application is viable or not|
