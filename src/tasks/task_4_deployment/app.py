@@ -6,6 +6,8 @@ from dateutil.relativedelta import relativedelta
 import matplotlib.dates as mdates
 import streamlit as st
 import matplotlib.pyplot as plt
+from PIL import Image
+
 
 with open('config.json', 'r') as f:
     # Load JSON data from file
@@ -48,8 +50,12 @@ print(concat_df.columns)
 total_hours = concat_df['precipitation_hours'].sum()
 concat_df['precipitation_rate'] = concat_df['precipitation_sum']/total_hours
 
+## Visual Element
+headerImage = Image.open('OmdenaHeaderImage.jpg')
+
 ##Streamlit app
 st.set_page_config(page_title="Weather Prediction", page_icon="⛅")
+st.image(headerImage)
 st.title('Karachi Pakistan Weather Prediction')
 if concat_df is not None:
     display_df = concat_df[['temperature_2m_max', 'et0_fao_evapotranspiration', 'precipitation_rate']]
