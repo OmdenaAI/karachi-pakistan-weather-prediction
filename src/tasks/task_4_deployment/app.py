@@ -24,10 +24,12 @@ with open('config.json', 'r') as f:
     json_data = json.load(f)
 
 # Load evo_model
-evo_model = RNNModel.load(json_data['evo_model'])
+evo_model = RNNModel.load(json_data['evo_model'], map_location='cpu')
+evo_model.to_cpu()
 
 # Load pre_rate_model
-pre_rate_model = RNNModel.load(json_data['pre_rate_model'])
+pre_rate_model = RNNModel.load(json_data['pre_rate_model'], map_location='cpu')
+pre_rate_model.to_cpu()
 
 
 data_columns = json_data['data_columns']
