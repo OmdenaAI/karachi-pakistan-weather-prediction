@@ -18,19 +18,16 @@ from darts.models import RegressionModel, CatBoostModel, RandomForest, LightGBMM
 from darts.metrics import rmse, mape
 from statsmodels.tsa.arima.model import ARIMA
 
+
 with open('config.json', 'r') as f:
     # Load JSON data from file
     json_data = json.load(f)
 
 # Load evo_model
-with open(json_data['evo_model'], 'rb') as file:
-    evo_model = pickle.load(file)
+evo_model = RNNModel.load(json_data['evo_model'])
 
 # Load pre_rate_model
-with open(json_data['pre_rate_model'], 'rb') as file:
-    pre_rate_model = pickle.load(file)
-
-print(evo_model)
+pre_rate_model = RNNModel.load(json_data['pre_rate_model'])
 
 
 data_columns = json_data['data_columns']
@@ -70,7 +67,6 @@ for city in cities:
 concat_df = pd.concat(cities_df, ignore_index=True)
 concat_df.set_index('time', inplace=True)
 ##need max temp, evotranspiration, precipitation_rate
-print(concat_df.columns)
 total_hours = concat_df['precipitation_hours'].sum()
 concat_df['precipitation_rate'] = concat_df['precipitation_sum']/total_hours
 
@@ -81,24 +77,22 @@ max_temp_model = ARIMA(max_temp, order=(5,1,0))
 max_temp_model = max_temp_model.fit()
 # Make predictions
 max_temp_predictions = max_temp_model.predict(start=1, end=10)
-print(len(max_temp_predictions))
 
 
 ##generate prediction for evo_transpiration
-et0_fao_evapotranspiration = TimeSeries.from_series(concat_df['et0_fao_evapotranspiration'].values)
+mean_evo = concat_df['et0_fao_evapotranspiration'].mean()
+et0_fao_evapotranspiration = TimeSeries.from_series(concat_df['et0_fao_evapotranspiration'].values, fillna_value=mean_evo)
 scaler = StandardScaler()
 transformer = Scaler(scaler)
 series_transformed = transformer.fit_transform(et0_fao_evapotranspiration)
-evo_model.fit(
-    series=series_transformed, verbose=0,
-          )
-evo_preds = evo_model.predict(n=10, series=series_transformed)
+evo_model.fit(series=series_transformed, verbose=0)
+evo_preds = evo_model.predict(10, series=series_transformed)
 evo_preds = transformer.inverse_transform(evo_preds)
-print(len(evo_preds))
-print(evo_preds)
+evo_preds = evo_preds.univariate_values()
 
 ##generate prediction for precipitation rate
-precipitation_rate = TimeSeries.from_series(concat_df['precipitation_rate'].values)
+# mean_pre = concat_df['et0_fao_evapotranspiration'].mean()
+precipitation_rate = TimeSeries.from_series(concat_df['precipitation_rate'].values, fillna_value=0)
 scaler = StandardScaler()
 transformer = Scaler(scaler)
 series_transformed = transformer.fit_transform(precipitation_rate)
@@ -107,11 +101,16 @@ pre_rate_model.fit(
           )
 precipitation_rate_preds = pre_rate_model.predict(n=10, series=series_transformed)
 precipitation_rate_preds = transformer.inverse_transform(precipitation_rate_preds)
-print(len(precipitation_rate_preds))
-print(precipitation_rate_preds)
+precipitation_rate_preds = precipitation_rate_preds.univariate_values()
 
-## Visual Element
-# headerImage = Image.open('OmdenaHeaderImage.jpg')
+
+## make future value df
+predicted_data = {'time': date_pred, 'temperature_2m_max': max_temp_predictions, 'et0_fao_evapotranspiration': evo_preds, 'precipitation_rate': precipitation_rate_preds}
+# Create Future value DataFrame
+predicted_df = pd.DataFrame(predicted_data)
+predicted_df.set_index('time', inplace=True)
+print(predicted_df)
+
 
 ##Streamlit app
 st.set_page_config(page_title="Weather Prediction", page_icon="⛅")
@@ -122,12 +121,14 @@ if concat_df is not None:
     st.write("Current values")
     st.write(display_df.tail(20))
 
-    st.write("Predicted future values - To be implemented")
+    st.write("Predicted future values")
+    st.write(predicted_df)
 
     # Plot the first column
     st.subheader(f'Plot of temperature_2m_max over time')
     fig1, ax1 = plt.subplots()
-    ax1.plot(concat_df.index, concat_df['temperature_2m_max'])
+    ax1.plot(concat_df.index, concat_df['temperature_2m_max'], label='Historical Value')
+    ax1.plot(predicted_df.index, predicted_df['temperature_2m_max'], color='red', label='Predicted Value')
     # Set the locator
     locator = mdates.MonthLocator()  # every month
     fmt = mdates.DateFormatter('%b')
@@ -135,28 +136,33 @@ if concat_df is not None:
     X = plt.gca().xaxis
     X.set_major_locator(locator)
     X.set_major_formatter(fmt)
+    ax1.legend()
     st.pyplot(fig1)
 
     # Plot the second column
     st.subheader(f'Plot of et0_fao_evapotranspiration over time')
     fig2, ax2 = plt.subplots()
-    ax2.plot(concat_df.index, concat_df['et0_fao_evapotranspiration'])
+    ax2.plot(concat_df.index, concat_df['et0_fao_evapotranspiration'], label='Historical Value')
+    ax2.plot(predicted_df.index, predicted_df['et0_fao_evapotranspiration'], color='red', label='Predicted Value')
     locator = mdates.MonthLocator()  # every month
     fmt = mdates.DateFormatter('%b')
 
     X = plt.gca().xaxis
     X.set_major_locator(locator)
     X.set_major_formatter(fmt)
+    ax2.legend()
     st.pyplot(fig2)
 
     # Plot the third column
     st.subheader(f'Plot of precipitation_rate over time')
     fig3, ax3 = plt.subplots()
-    ax3.plot(concat_df.index, concat_df['precipitation_rate'])
+    ax3.plot(concat_df.index, concat_df['precipitation_rate'], label='Historical Value')
+    ax3.plot(predicted_df.index, predicted_df['precipitation_rate'], color='red', label='Predicted Value')
     locator = mdates.MonthLocator()  # every month
     fmt = mdates.DateFormatter('%b')
 
     X = plt.gca().xaxis
     X.set_major_locator(locator)
     X.set_major_formatter(fmt)
+    ax3.legend()
     st.pyplot(fig3)
