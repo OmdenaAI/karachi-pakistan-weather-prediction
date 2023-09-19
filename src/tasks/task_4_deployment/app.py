@@ -87,7 +87,7 @@ transformer = Scaler(scaler)
 series_transformed = transformer.fit_transform(et0_fao_evapotranspiration)
 evo_model.fit(series=series_transformed, verbose=0)
 evo_preds = evo_model.predict(10, series=series_transformed)
-evo_preds = transformer.inverse_transform(evo_preds)
+evo_preds = transformer.inverse_transform(evo_preds).pd_series()
 evo_preds = evo_preds.univariate_values()
 
 ##generate prediction for precipitation rate
@@ -100,7 +100,7 @@ pre_rate_model.fit(
     series=series_transformed, verbose=0,
           )
 precipitation_rate_preds = pre_rate_model.predict(n=10, series=series_transformed)
-precipitation_rate_preds = transformer.inverse_transform(precipitation_rate_preds)
+precipitation_rate_preds = transformer.inverse_transform(precipitation_rate_preds).pd_series()
 precipitation_rate_preds = precipitation_rate_preds.univariate_values()
 
 
