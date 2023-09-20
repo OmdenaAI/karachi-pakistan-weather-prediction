@@ -19,9 +19,10 @@ from darts.metrics import rmse, mape
 from statsmodels.tsa.arima.model import ARIMA
 
 
-with open('config.json', 'r') as f:
-    # Load JSON data from file
-    json_data = json.load(f)
+path = path = 'config.json'
+
+with open(path,'r') as config:
+    json_data = json.load(config)
 
 # Load evo_model
 evo_model = RNNModel.load(json_data['evo_model'], map_location='cpu')
