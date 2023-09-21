@@ -1,6 +1,6 @@
 # Task 4 Details
 
-Task 4 is about the deployment of the models that were built and chosen during [task 3](tasks/task_3_modelling)
+Task 4 is about the deployment of the models that were built and chosen during [task 3](../task_3_modelling)
 
 - The app has been developped using streamlit
 - The main file for the app is called "Forecast.py"
