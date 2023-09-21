@@ -242,7 +242,7 @@ fig.add_trace(go.Scatter(x=predicted_df.index,
                 )
 
 fig.update_yaxes(title_text=labels_dict[forecast_choice])
-fig.update_layout(title=f"{forecast_choice} Forecasting for 10 years.")
+fig.update_layout(title=f"{forecast_choice} Forecasting for 10 days.")
 st.plotly_chart(fig, theme=None)
 
 with st.expander("Explanation"):
