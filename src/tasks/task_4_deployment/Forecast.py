@@ -28,26 +28,26 @@ import plotly.graph_objects as go
 import plotly.figure_factory as ff
 
 # Set the work directory to retrieve all data
-script_dir = os.path.dirname(__file__)
+# script_dir = os.path.dirname(__file__)
+script_dir = os.path.dirname(os.path.abspath(__file__))
+
 config_json = "config.json"
+models_dir = "models"
 rel_to_config_json_path = os.path.join(script_dir, config_json)
 
 with open(rel_to_config_json_path, 'r') as f:
     # Load JSON data from file
     json_data = json.load(f)
 
-json_data = {
-    "data_columns" : "weathercode,temperature_2m_max,temperature_2m_min,temperature_2m_mean,apparent_temperature_max,apparent_temperature_min,apparent_temperature_mean,sunrise,sunset,shortwave_radiation_sum,precipitation_sum,rain_sum,snowfall_sum,precipitation_hours,windspeed_10m_max,windgusts_10m_max,winddirection_10m_dominant,et0_fao_evapotranspiration",
-    "evo_model" : f"{rel_to_config_json_path}evapotranspiration_model.pt",
-    "pre_rate_model" : f"{rel_to_config_json_path}precipitation_rate_model.pt"
-}
-
-# Load evo_model
-evo_model = RNNModel.load('C://Users//valer//OneDrive//0_DataScience//99_VSCode//Streamlit//models//evapotranspiration_model.pt', map_location='cpu')
+# Load evo_model json_data['evo_model']
+evo_model_path = os.path.join(script_dir, models_dir, json_data["evo_model"])
+evo_model = RNNModel.load(evo_model_path, map_location='cpu')
 evo_model.to_cpu()
 
+
 # Load pre_rate_model
-pre_rate_model = RNNModel.load('C://Users//valer//OneDrive//0_DataScience//99_VSCode//Streamlit//models//precipitation_rate_model.pt', map_location='cpu')
+pre_rate_path = os.path.join(script_dir, models_dir, json_data["pre_rate_model"])
+pre_rate_model = RNNModel.load(pre_rate_path, map_location='cpu')
 pre_rate_model.to_cpu()
 
 # Format to datetime
@@ -170,11 +170,11 @@ st.write("""
         Studying weather data from Karachi from 2010, this project aims at giving ten days prediction
          on features that are important for the catastrophy prevention:
 
-         Daily Max Temperature (Heatwave)
+         - Daily Max Temperature (Heatwave)
 
-         et0_fao_evapotranspiration and precipitation rate (flooding)
+         - et0_fao_evapotranspiration and precipitation rate (flooding)
 
-         XXX UPDATE INFORMATION XXX
+         Note: We plan to update that app to display warning in case one of our indicators is above a certain threshold.
 
          """)
 
@@ -250,7 +250,7 @@ with st.expander("Explanation"):
     st.write("""
         The chart above shows the prediction for the coming ten days in Karachi.
         It uses a Machine Learning model that have been trained on data from 2010 to 2023.
-    XXX INSERT MORE DETAILS ABOUT THE MODELS USED XXX
+        ARIMA and LSTM have been used for that project.
              """)
 
 display_df = concat_df[[forecast_choice]]
@@ -258,7 +258,6 @@ display_predicted_df = predicted_df[forecast_choice]
 
 # Create the sidebar
 st.sidebar.subheader(f'Features Description')
-
 st.sidebar.write("""
                 <div style="text-align: justify;">
 
