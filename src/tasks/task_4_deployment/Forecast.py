@@ -190,10 +190,12 @@ display_df = concat_df[feature_list]
 st.write('<style>div.row-widget.stRadio > div{flex-direction:row;justify-content: start;} </style>',
          unsafe_allow_html=True)
 st.write('<style>.st-ec .st-df label {font-size: larger; font-weight: bold;}</style>', unsafe_allow_html=True)
-radio_choose = st.radio("Select the feature you want to forecast", (feature_list))
+forecast_choice = st.selectbox("Select the feature you want to forecast", (feature_list))
+
+
 
 # Plot based on choice
-st.subheader(f'Forecasting for ten days of {radio_choose}')
+st.subheader(f'Forecast')
 
 # Create a layout with a title
 layout = go.Layout(
@@ -206,7 +208,6 @@ layout = go.Layout(
         )
     ),
     xaxis=dict(
-        title="X Axis Title",
         titlefont=dict(
             family="Arial, sans-serif",  # Different font family for x-axis title
             size=18  # Font size for x-axis title
@@ -222,27 +223,26 @@ layout = go.Layout(
 fig = go.Figure(layout=layout)
 fig.update_xaxes(showline=True, linewidth=1, linecolor='rgb(96, 103, 117)', gridcolor='rgb(96, 103, 117)')
 fig.update_yaxes(showline=True, linewidth=1, linecolor='rgb(96, 103, 117)', gridcolor='rgb(96, 103, 117)')
-fig.update_layout(paper_bgcolor="#F3F5F4", plot_bgcolor="rgb(52, 53, 56)")
+fig.update_layout(paper_bgcolor="#262730", plot_bgcolor="rgb(52, 53, 56)")
 
 fig.add_trace(go.Scatter(x=concat_df.index,
-                            y=concat_df[radio_choose],
+                            y=concat_df[forecast_choice],
                             mode='lines',
-                            marker_color=color_palette[radio_choose],
-                            name='Historical Value'
+                            marker_color=color_palette[forecast_choice],
+                            name='Historical Value',
                             )
                 )
 
 fig.add_trace(go.Scatter(x=predicted_df.index,
-                            y=predicted_df[radio_choose],
+                            y=predicted_df[forecast_choice],
                             mode='lines',
-                            marker_color=color_palette_pred[radio_choose],
+                            marker_color=color_palette_pred[forecast_choice],
                             name='Predicted Value'
                             )
                 )
 
-fig.update_xaxes(title_text='Date')
-fig.update_yaxes(title_text=labels_dict[radio_choose])
-
+fig.update_yaxes(title_text=labels_dict[forecast_choice])
+fig.update_layout(title=f"{forecast_choice} Forecasting for 10 years.")
 st.plotly_chart(fig, theme=None)
 
 with st.expander("Explanation"):
@@ -253,17 +253,8 @@ with st.expander("Explanation"):
     XXX INSERT MORE DETAILS ABOUT THE MODELS USED XXX
              """)
 
-display_df = concat_df[[radio_choose]]
-display_predicted_df = predicted_df[radio_choose]
-
-st.write("Current values")
-# st.write(display_df.tail(20))
-st.table(display_df.tail(20))
-
-st.write("Predicted future values")
-# st.write(predicted_df)
-st.table(display_predicted_df)
-
+display_df = concat_df[[forecast_choice]]
+display_predicted_df = predicted_df[forecast_choice]
 
 # Create the sidebar
 st.sidebar.subheader(f'Features Description')
@@ -273,7 +264,7 @@ st.sidebar.write("""
 
                  **temperature_2m_max**:
                  
-                 Maximum daily air temperature at 2 meters above ground (Celsius),
+                 Maximum daily air temperature at 2 meters above ground (Celsius).
                  
                  **et0_fao_evapotranspiration**:
                  
