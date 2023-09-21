@@ -1,5 +1,5 @@
 {
     "data_columns" : "weathercode,temperature_2m_max,temperature_2m_min,temperature_2m_mean,apparent_temperature_max,apparent_temperature_min,apparent_temperature_mean,sunrise,sunset,shortwave_radiation_sum,precipitation_sum,rain_sum,snowfall_sum,precipitation_hours,windspeed_10m_max,windgusts_10m_max,winddirection_10m_dominant,et0_fao_evapotranspiration",
-    "evo_model" : "src/tasks/task_4_deployment/models/evapotranspiration_model.pt",
-    "pre_rate_model" : "models/precipitation_rate_model.pt"
+    "evo_model" : "evapotranspiration_model.pt",
+    "pre_rate_model" : "precipitation_rate_model.pt"
 }
