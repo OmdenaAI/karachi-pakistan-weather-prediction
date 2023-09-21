@@ -28,7 +28,6 @@ import plotly.graph_objects as go
 import plotly.figure_factory as ff
 
 # Set the work directory to retrieve all data
-# script_dir = os.path.dirname(__file__)
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
 config_json = "config.json"
@@ -43,7 +42,6 @@ with open(rel_to_config_json_path, 'r') as f:
 evo_model_path = os.path.join(script_dir, models_dir, json_data["evo_model"])
 evo_model = RNNModel.load(evo_model_path, map_location='cpu')
 evo_model.to_cpu()
-
 
 # Load pre_rate_model
 pre_rate_path = os.path.join(script_dir, models_dir, json_data["pre_rate_model"])
@@ -249,7 +247,7 @@ with st.expander("Explanation"):
     st.image("OmdenaHeaderImage.jpg")
     st.write("""
         The chart above shows the prediction for the coming ten days in Karachi.
-        It uses a Machine Learning model that have been trained on data from 2010 to 2023.
+        It uses a Machine Learning model that has been trained on data from 2010 to 2023.
         ARIMA and LSTM have been used for that project.
              """)
 
