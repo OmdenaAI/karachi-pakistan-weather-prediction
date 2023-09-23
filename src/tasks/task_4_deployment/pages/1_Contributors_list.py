@@ -15,6 +15,22 @@ st.markdown(
 - Marc Kolb
 - Ye Bhone Lin
 - Soh Zong Xian
+- Valéry Bonneau
+- Utkarsh Trivedi
+- Nick Schilders
+- Kamal Muhamed
+- Sidra Tul Muntaha 
+- Sai Nagender Sama
+- Piyush rawat 
+- Muhammad Azam
+- Augustine M Gbondo
+- Talha Mehfooz Khursaidi 
+- Rohit Singh 
+- Ogbonnaya Ogah
+- Sunil Zakane 
+- Sahar Nikoo
+- Kelvin Njenga
+- N R Sailesh
   
 """
 )
